@@ -218,6 +218,7 @@ void Jugador::moverFicha(Tablero* tablero) {
     	}
     }
     if(volverAEmpezar==true){
+	tablero->imprimirTablero();
     	this->moverFicha(tablero);
     }
     else{
