@@ -59,7 +59,7 @@ class Jugador{
   ///FALTABAN AGREGAR FIRMAS DE METODOS
   void moverFicha(Tablero* tablero);
   void intercambiarFichas(Casillero* casillero, Casillero* casilleroAMover);
-  Casillero* encontrarCasillero(Tablero* tablero, int profundidad, int ancho, int alto);
+  void menuDeOpcionesAMover(int &eleccion);
   /////////////////////////////////////
 
   void usarCarta(Lista<Jugador*>* jugadores, Tablero* tablero, int maximoDeCartas);
