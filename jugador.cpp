@@ -54,6 +54,7 @@ void Jugador::colocarFicha(Tablero* tablero) {
     tablero->imprimirTablero();
     int ancho, profundidad, alto;
 
+    cout<<"Es el turno del jugador: "<<this->getTextoNombre()<<" su ficha es: "<<this->getId()<<endl<<endl;
     cout << "Seleccione una posicion (ancho, profundidad y altura respectivamente) para ingresar una ficha en esa posicion" << endl;
 
     this->ingresarVerificandoValores(ancho, profundidad, alto, tablero);
@@ -116,30 +117,96 @@ void  Jugador::ingresarVerificandoValores(int &ancho,int &profundidad,int &alto,
 void Jugador::moverFicha(Tablero* tablero) {
     tablero->imprimirTablero();
     int ancho, profundidad, alto;
-    int anchoDestino, profundidadDestino, altoDestino;
+    bool seguir=true,volverAEmpezar=false;
+    int eleccion,opcion2;
     Casillero *casillero, *casilleroDestino;
 
+    cout<<"Es el turno del jugador: "<<this->getTextoNombre()<<" su ficha es: "<<this->getId()<<endl<<endl;
     cout << "Seleccione una posicion (ancho, profundidad y altura respectivamente) para mover una ficha de esa posicion" << endl;
     this->ingresarVerificandoValores(ancho, profundidad, alto, tablero);
 
-    casillero= this->encontrarCasillero(tablero, profundidad, ancho, alto);
-
-    cout << "Seleccione una posicion en la cual mover la ficha elegida(no se puede mover en diagonal): "<<endl;
-    this->ingresarVerificandoValores(anchoDestino, profundidadDestino, altoDestino, tablero);
-
-    while (anchoDestino != ancho + 1 || anchoDestino != ancho - 1 || profundidadDestino != profundidad - 1 || profundidadDestino != profundidad + 1 || altoDestino != alto + 1 || altoDestino != alto - 1 || tablero->getCasillero(profundidadDestino, anchoDestino, altoDestino)->getBloqueado() == true || tablero->getCasillero(profundidadDestino, anchoDestino, altoDestino)->getId() == 0) {
-        if (tablero->getCasillero(profundidadDestino, anchoDestino, altoDestino)->getBloqueado()==true || tablero->getCasillero(profundidadDestino, anchoDestino, altoDestino)->getId()==0)
-        {
-            cout << "La casilla a la cual se quiere mover la ficha esta ocupada o bloqueada intente nuevamente!!!"<<endl;
-        }
-        else {
-            cout << "La casilla ingresada no es valida intente nuevamente!!!" << endl;
-        }
-        cout << "Seleccione una nueva posicion valida en la cual mover la ficha elegida(no se puede mover en diagonal): " << endl<<endl;
-        this->ingresarVerificandoValores(anchoDestino, profundidadDestino, altoDestino, tablero);
+    if (tablero->getCasillero(profundidad, ancho, alto)->getBloqueado() == true) {
+    	cout << "la posicion ingresada esta bloqueada!!!" << endl;
+    	volverAEmpezar=true;
     }
-    casilleroDestino = this->encontrarCasillero(tablero, profundidadDestino, anchoDestino, altoDestino);
-    intercambiarFichas(casillero, casilleroDestino);
+
+    else if (tablero->getCasillero(profundidad, ancho, alto)->getId() != this->getId()) {
+    	cout << "La casilla esta vacia o ocupada por otro jugador!!!" << endl;
+    	volverAEmpezar=true;
+    }
+
+    if(volverAEmpezar){
+    	this->moverFicha(tablero);
+    }
+    else{
+    	casillero=tablero->getCasillero(profundidad,ancho,alto);
+    }
+
+    tablero->imprimirTablero();
+
+    this->menuDeOpcionesAMover(eleccion);
+
+    while(seguir==true){
+    	switch(eleccion){
+    		case 1:
+    			casilleroDestino=tablero->getCasillero(profundidad,ancho,alto+1);
+    			break;
+    		case 2:
+    			casilleroDestino=tablero->getCasillero(profundidad,ancho,alto-1);
+    			break;
+    		case 3:
+    			casilleroDestino=tablero->getCasillero(profundidad,ancho+1,alto);
+    			break;
+    		case 4:
+    			casilleroDestino=tablero->getCasillero(profundidad,ancho-1,alto);
+    			break;
+    		case 5:
+    			casilleroDestino=tablero->getCasillero(profundidad+1,ancho,alto);
+    			break;
+    		case 6:
+    			casilleroDestino=tablero->getCasillero(profundidad-1,ancho,alto+1);
+    			break;
+    		case 7:
+    			volverAEmpezar=true;
+    			break;
+    		default:
+    			cout<<"La opcion elegida no es valida ingrese otra "<<endl;
+    			this->menuDeOpcionesAMover(eleccion);
+
+    	}
+    	if(casilleroDestino==NULL){
+    		seguir=true;
+    	}
+    	else if(casilleroDestino->getBloqueado()==true){
+    		seguir=true;
+    	}
+    	else if(casilleroDestino->getId()!=0){
+    		cout<<"el casillero seleccionado esta ocupado!!!"<<endl;
+    		seguir=true;
+    	}
+    	else{
+    		seguir=false;
+    	}
+
+    	if(seguir==true){
+    		cout<<"Elija la opcion que desee"<<endl;
+    		cout<<"1-volver a elegir un movimiento de la ficha"<<endl;
+    		cout<<"2-elegir otra ficha para moverla"<<endl;
+    		cin>>opcion2;
+    		if(opcion2==2){
+    			volverAEmpezar=true;
+    		}else{
+    			this->menuDeOpcionesAMover(eleccion);
+    		}
+    	}
+    }
+    if(volverAEmpezar==true){
+    	this->moverFicha(tablero);
+    }
+    else{
+    	this->intercambiarFichas(casillero,casilleroDestino);
+    }
+
 }
 
 /*
@@ -152,26 +219,18 @@ void Jugador::intercambiarFichas(Casillero* casillero, Casillero* casilleroAMove
     casillero->setId(0);
 }
 
-/*
-    PRE: recibe como parametros el tablero y la profundidad, alto y ancho en el que se encuentra el casillero que se desea buscar.
-    POST:devuelve el casillero en la profundidad, ancho y alto establecidos previamente.
-*/
+void Jugador::menuDeOpcionesAMover(int &eleccion){
+	cout<<"Es el turno del jugador: "<<this->getTextoNombre()<<" su ficha es: "<<this->getId()<<endl<<endl;
+	cout<<"Seleccione la opcion que desee: "<<endl;
+	cout<<"1-mover la ficha hacia abajo (en altura)"<<endl;
+	cout<<"2-mover la ficha hacia arriba (en altura)"<<endl;
+	cout<<"3-mover la ficha hacia la derecha (en ancho)"<<endl;
+	cout<<"4-mover la ficha hacia la izquierda (en ancho)"<<endl;
+	cout<<"5-mover la ficha hacia adelante (en profundidad)"<<endl;
+	cout<<"6-mover la ficha hacia atras (en profundidad)"<<endl<<endl;
 
-Casillero* Jugador::encontrarCasillero(Tablero* tablero, int profundidad, int ancho, int alto) {
-
-    if (tablero->getCasillero(profundidad, ancho, alto)->getBloqueado() != false || tablero->getCasillero(profundidad, ancho, alto)->getId() != this->getId()) {
-
-        if (tablero->getCasillero(profundidad, ancho, alto)->getBloqueado() != false) {
-            cout << "la posicion ingresada esta bloqueada!!!" << endl;
-        }
-
-        else if (tablero->getCasillero(profundidad, ancho, alto)->getId() != 0) {
-            cout << "Esta vacia o ocupada por otro jugador!!!" << endl;
-        }
-
-        cout << "Elija otra posicion en la cual ingresar la ficha" << endl << endl;
-    }
-    return tablero->getCasillero(profundidad, ancho, alto);
+	cout << "opcion: ";
+	cin>>eleccion;
 }
 
 int Jugador::getCantTotalCartas(){
