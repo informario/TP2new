@@ -311,12 +311,12 @@ int Jugador::escojerCartaAUtilizar(){
 
     do{
         cout<<"Seleccione el tipo de carta que desee utilizar:"<<endl<<endl
-        <<"1. Hacer perder un turno a un jugador ("<<this->getCantCartasDeUnTipo(0)<<" cartas disponibles)."<<endl
-        <<"2. Bloquear ficha de un jugador ("<<this->getCantCartasDeUnTipo(1)<<" cartas disponibles)."<<endl
-        <<"3. Anular posicion del tablero ("<<this->getCantCartasDeUnTipo(2)<<" cartas disponibles)."<<endl
-        <<"4. Volver atras una jugada del turno ("<<this->getCantCartasDeUnTipo(3)<<" cartas disponibles)."<<endl
-        <<"5. Quitar cartas a un jugador ("<<this->getCantCartasDeUnTipo(0)<<" cartas disponibles)."<<endl
-        <<"6. Renovar cartas en mano ("<<this->getCantCartasDeUnTipo(0)<<" cartas disponibles)."<<endl
+        <<"1. Hacer perder un turno a un jugador >> cartas disponibles: "<<this->getCantCartasDeUnTipo(0)<<endl
+        <<"2. Bloquear ficha de un jugador >> cartas disponibles: "<<this->getCantCartasDeUnTipo(1)<<endl
+        <<"3. Anular posicion del tablero >> cartas disponibles: "<<this->getCantCartasDeUnTipo(2)<<endl
+        <<"4. Volver atras una jugada del turno >> cartas disponibles: "<<this->getCantCartasDeUnTipo(3)<<endl
+        <<"5. Quitar cartas a un jugador >> cartas disponibles: "<<this->getCantCartasDeUnTipo(4)<<endl
+        <<"6. Renovar cartas en mano >> cartas disponibles: "<<this->getCantCartasDeUnTipo(5)<<endl
         <<"7. CANCELAR ACCION"<<endl
         <<"Ingresar opcion: ";
 
