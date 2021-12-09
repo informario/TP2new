@@ -70,7 +70,7 @@ void procesarJuego(Lista<Jugador*>*jug, Tablero *tab, int c){
 			}
 			else{
 				///SE LEVANTA UNA CARTA
-			    	cout<<"Turno de "<<jug->get(x)->getTextoNombre()<<endl;
+			    	cout<<jug->get(x)->getTextoNombre();
                 		int cartaRecibida = jug->get(x)->levantarCarta(c);
                 		mostrarSiLevantoCarta(cartaRecibida);
 				
@@ -129,9 +129,9 @@ void mostrarSiLevantoCarta(int indiceCarta){
     string nombresCartas[] = {"Hacer perder turno a jugador", "Bloquear ficha de jugador", "Anular casillero", "Volver atras una jugada del turno", "Quitar cartas a jugador", "Renovar cartas"};
 
     if (indiceCarta == -1){
-        cout<<"No puedes levantar carta"<<endl<<"Ya tienes la cantidad maxima permitida de cartas en mano."<<endl;
+        cout<<" no pudo levantar carta"<<endl<<"Ya tiene la cantidad maxima permitida de cartas en mano."<<endl;
     }else{
-        cout<<"Has levantado una carta: "<<nombresCartas[indiceCarta]<<endl;
+        cout<<" ha levantado una carta: "<<nombresCartas[indiceCarta]<<endl;
     }
 }
 
