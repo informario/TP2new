@@ -57,6 +57,7 @@ void Jugador::setTextoNombre(string a){
 void Jugador::colocarFicha(Tablero* tablero) {
     tablero->imprimirTablero();
     int ancho, profundidad, alto;
+    Casillero* casilleroDondeColoco;
 
     cout<<"Es el turno del jugador: "<<this->getTextoNombre()<<" su ficha es: "<<this->getId()<<endl<<endl;
     cout << "Seleccione una posicion (ancho, profundidad y altura respectivamente) para ingresar una ficha en esa posicion" << endl;
@@ -77,9 +78,14 @@ void Jugador::colocarFicha(Tablero* tablero) {
 	cout << "Seleccione una posicion (ancho, profundidad y altura respectivamente) para ingresar una ficha en esa posicion" << endl;
 	this->ingresarVerificandoValores(ancho, profundidad, alto, tablero);
     }
-    tablero->getCasillero(profundidad, ancho, alto)->setId(this->getId());
-
+    casilleroDondeColoco=tablero->getCasillero(profundidad,ancho,alto);
+    casilleroDondeColoco->setId(this->getId());
     this->setFichasPorColocar(this->getFichasPorColocar() - 1);
+
+    this->setCasillaPreviaJugada(this->getCasillaPosteriorJugada() );
+    this->setCasillaPosteriorJugada(casilleroDondeColoco);
+
+	
 	///REVISAR SI SE VAN ACTUALIZANDO LOS ATRIBUTOS casillaPreviaJugada y casillaPosteriorJugada 
 	///EN CASILLA POSTERIOR SE GUARDA UN PUNTERO A LA CASILLA DONDE COLOCA LA FICHA Y EN CASILLA PREVIA LA QUE COLOCO EN EL TURNO ANTERIOR
 }
@@ -215,6 +221,8 @@ void Jugador::moverFicha(Tablero* tablero) {
     	this->moverFicha(tablero);
     }
     else{
+	this->setCasillaPreviaJugada(casillero);
+    	this->setCasillaPosteriorJugada(casilleroDestino);
     	this->intercambiarFichas(casillero,casilleroDestino);
     }
 
