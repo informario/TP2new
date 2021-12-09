@@ -59,7 +59,37 @@ class Jugador{
   void intercambiarFichas(Casillero* casillero, Casillero* casilleroAMover);
   void menuDeOpcionesAMover(int &eleccion);
   /////////////////////////////////////
-
+  
+  /*
+ * PRE:  - Para anular una casilla del tablero, esta debe de estar vacia, en caso contrario, dicha carta no
+ *         tendra efecto y se descontara igualmente de la mano del usuario.
+ *       - Para revertir una jugada del turno, el jugador debe de haber colocado todas sus fichas en el tablero,
+ *         y la casilla anterior que ocupaba la ultima ficha del jugador al cual se le aplican los efectos de dicha
+ *         carta, debe de estar vacía, en caso contrario, dicha carta no tendra efecto y se descontara igualmente de
+ *         la mano del usuario.
+ *
+ * POST: - Se efectua el efecto correspondiente según la acción de la carta elegida por el usuario y se resta
+ *         dicha carta de la mano del jugadornque la utilzo.
+ *       - Hacer perder el turno de un jugador implica saltearse al jugador contra el que se uso esa carta.
+ *         Si el jugador la utiliza contra si mismo, se quitara su siguiente turno.
+ *       - Bloquear la ficha de un determinado jugador implica que dicho jugador no podra mover la ultima
+ *         ficha movida correspondiente a su anterior turno.
+ *       - Anular una casilla del tablero deja inhabilitada dicha casilla hasta que el jugador que la anulo
+ *         vuelva a jugar.
+ *         Si la casilla estaba ocupada, dicha carta no tuvo efecto.
+ *       - Volver atras una jugada del turno implica revertir el ultimo movimiento realizado por el jugador
+ *         contra el cual se utiliza dicha carta una vez que todas sus fichas se encuentran en el tablero.
+ *         Si la casilla que ocupaba anteriormente dicha ficha afectada por la carta estaba ocupada o bloqueada,
+ *         esta carta no tuvo efecto.
+ *       - Destruir las cartas del jugador deja la mano vacía de cartas del jugador afectado.
+ *         Si el jugador afectado no tenia cartas e igualmente se uso esta carta contra el, se quita esta carta de
+ *         las manos del usuario.
+ *       - Renovar las cartas del usuario dejo la mano vacia de cartas de quien uso dicha carta para volver a levantar
+ *         nuevas cartas.
+ *         Se renovaron la misma cantidad de cartas que el usuario descarto.
+ *         Si el usuario no tenia cartas (ademas de la que uso para renovar) el usuario se quedo sin cartas y se le quito
+ *         de su mano la carta usada.
+ */
   void usarCarta(Lista<Jugador*>* jugadores, Tablero* tablero, int maximoDeCartas);
 
   //GETTERS Y SETTERS FALTANTES
