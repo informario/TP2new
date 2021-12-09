@@ -92,7 +92,7 @@ void Jugador::colocarFicha(Tablero* tablero) {
 
 /*
     PRE: recibe por parametros la direccion de memoria de cada atributo del casillero (ancho, profundidad y alto) y el puntero al tablero,los valores mencionados tienen que estar dentro de las
-    dimensiones del tablero.
+    dimensiones del tablero y tienen que ser de tipo entero(int).
     POST: le pregunta al usuario sobre los valores de ancho, profundidad y altura y luego se los otorga a las variables que fueron pasadas por referencia.
 */
 void  Jugador::ingresarVerificandoValores(int &ancho,int &profundidad,int &alto, Tablero* tablero) {
@@ -124,13 +124,10 @@ void  Jugador::ingresarVerificandoValores(int &ancho,int &profundidad,int &alto,
 
 /*
     PRE: recibe como parametro un puntero a tablero la casilla que se selecciona debe estar dentro de las dimensiones del tablero, no debe estar bloqueada y no puede estar vacia o ocupada por otro jugador,
-    la casilla a la que se mueve la ficha debe estar dentro de las dimensiones del tablero, no puede estar bloqueada la casilla y tiene que estar vacia.
+    la casilla a la que se mueve la ficha debe estar dentro de las dimensiones del tablero, no puede estar bloqueada la casilla y tiene que estar vacia. La eleccion ingresada por el usuario tiene que ser de tipo entero(int).
     POST: mueve una ficha de un casillero a un casillero que se encuentre al lado del mismo (no puede moverse en diagonal).
 */
 
-///HAY QUE CHEQUEAR QUE 
-///SI LA FICHA QUE QUIERE MOVER LE PERTENECE Y AL MISMO TIEMPO ESTA BLOQUEADA -> NO PUEDE MOVER ESA FICHA PORQUE SE LA BLOQUEARON
-///IR ACTUALIZANDO LOS ATRIBUTOS DE CASILLA PREVIA Y CASILLA POSTERIOR
 void Jugador::moverFicha(Tablero* tablero) {
     tablero->imprimirTablero();
     int ancho, profundidad, alto;
@@ -239,7 +236,8 @@ void Jugador::intercambiarFichas(Casillero* casillero, Casillero* casilleroAMove
     casillero->setId(0);
 }
 /*
-     PRE: recibe como parametro la direccion de memoria de un valor entero que representa la eleccion del usuario en un menu de opciones que va a ser proporsionada por la misma funcion.	
+     PRE: recibe como parametro la direccion de memoria de un valor entero que representa la eleccion del usuario en un menu de opciones que va a ser proporsionada por la misma funcion.
+     Cuando el usuario ingresa la opcion deseada la misma tiene que ser de tipo entero (int).
      POST:proporciona un menu de opciones el cual muestra todos los posibles movimientos de una ficha.
 */
 void Jugador::menuDeOpcionesAMover(int &eleccion){
