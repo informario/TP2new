@@ -81,8 +81,7 @@ void Jugador::colocarFicha(Tablero* tablero) {
     casilleroDondeColoco=tablero->getCasillero(profundidad,ancho,alto);
     casilleroDondeColoco->setId(this->getId());
     this->setFichasPorColocar(this->getFichasPorColocar() - 1);
-
-    this->setCasillaPreviaJugada(this->getCasillaPosteriorJugada() );
+	
     this->setCasillaPosteriorJugada(casilleroDondeColoco);
 
 	
