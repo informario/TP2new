@@ -1,5 +1,8 @@
 #include "jugador.h"
 
+///NECESARIO PARA LEVANTAR CARTA 
+#include "tateti.h"
+
 Jugador::Jugador(char ide, string texnom, int fichasIniciales){
   for(int x=0; x<6; x++){
     cartas[x]=0;
@@ -77,7 +80,8 @@ void Jugador::colocarFicha(Tablero* tablero) {
     tablero->getCasillero(profundidad, ancho, alto)->setId(this->getId());
 
     this->setFichasPorColocar(this->getFichasPorColocar() - 1);
-
+	///REVISAR SI SE VAN ACTUALIZANDO LOS ATRIBUTOS casillaPreviaJugada y casillaPosteriorJugada 
+	///EN CASILLA POSTERIOR SE GUARDA UN PUNTERO A LA CASILLA DONDE COLOCA LA FICHA Y EN CASILLA PREVIA LA QUE COLOCO EN EL TURNO ANTERIOR
 }
 
 /*
@@ -118,6 +122,9 @@ void  Jugador::ingresarVerificandoValores(int &ancho,int &profundidad,int &alto,
     POST: mueve una ficha de un casillero a un casillero que se encuentre al lado del mismo (no puede moverse en diagonal).
 */
 
+///HAY QUE CHEQUEAR QUE 
+///SI LA FICHA QUE QUIERE MOVER LE PERTENECE Y AL MISMO TIEMPO ESTA BLOQUEADA -> NO PUEDE MOVER ESA FICHA PORQUE SE LA BLOQUEARON
+///IR ACTUALIZANDO LOS ATRIBUTOS DE CASILLA PREVIA Y CASILLA POSTERIOR
 void Jugador::moverFicha(Tablero* tablero) {
     tablero->imprimirTablero();
     int ancho, profundidad, alto;
@@ -138,7 +145,7 @@ void Jugador::moverFicha(Tablero* tablero) {
     	cout << "La casilla esta vacia o ocupada por otro jugador!!!" << endl;
     	volverAEmpezar=true;
     }
-
+    
     if(volverAEmpezar){
     	this->moverFicha(tablero);
     }
@@ -255,7 +262,7 @@ int Jugador::levantarCarta(int cantMaxCartas){
     if(this->getCantTotalCartas()>=cantMaxCartas){
         return -1;
     }
-    int indiceCarta = this->generarIndiceCartaAleatorio();
+    int indiceCarta = generarIndiceCarta();///AHORA ES FUNCION EN TATETI
     this->cartas[indiceCarta]++;
     return indiceCarta;
 }
@@ -267,7 +274,7 @@ void Jugador::usarCarta(Lista<Jugador*>* jugadores, Tablero* tablero, int maximo
     if(this->getCantTotalCartas()<=0){
         throw "EL JUGADOR NO TIENE CARTAS QUE JUGAR. EL JUGADOR DEBE TENER AL MENOS UNA CARTA QUE USAR.";
     }
-    int indiceCartaUsada = this->escojerCartaAUtilizar();///DEVUELVE EL INDICE DE LA CARTA A USAR
+    int indiceCartaUsada = this->escojerCartaAUtilizar();///DEVUELVE EL INDICE DE LA CARTA A USAR O -1
 
     if(indiceCartaUsada == 0){
         this->hacerPerderTurnoAJugador(jugadores);
@@ -287,7 +294,9 @@ void Jugador::usarCarta(Lista<Jugador*>* jugadores, Tablero* tablero, int maximo
     if(indiceCartaUsada == 5){
         this->renovarCartas(maximoDeCartas);
     }
-    this->cartas[indiceCartaUsada]--;
+    if(indiceCartaUsada != -1){
+        this->cartas[indiceCartaUsada]--;
+    }
 }
 
 /****METODOS**PRIVADOS**PARA**USAR**CARTA***********************************************************************/
@@ -308,9 +317,14 @@ int Jugador::escojerCartaAUtilizar(){
         <<"4. Volver atras una jugada del turno ("<<this->getCantCartasDeUnTipo(3)<<" cartas disponibles)."<<endl
         <<"5. Quitar cartas a un jugador ("<<this->getCantCartasDeUnTipo(0)<<" cartas disponibles)."<<endl
         <<"6. Renovar cartas en mano ("<<this->getCantCartasDeUnTipo(0)<<" cartas disponibles)."<<endl
+        <<"7. CANCELAR ACCION"<<endl
         <<"Ingresar opcion: ";
 
         cin>>entrada;
+
+        if(entrada == 7){
+            return -1;
+        }
 
         if(entrada >=1 && entrada<=6 && this->cartas[entrada-1]>0){
             seleccionValida = true;
@@ -437,33 +451,37 @@ Jugador* Jugador::pedirJugadorAPerjudicar(Lista<Jugador*>* jugadores){
 
 }
 
-///DEVUELVE UN NUMERO AL AZAR ENTRE 0 Y 5
-int Jugador::generarIndiceCartaAleatorio(){
-
-    int aleatorio;
-    srand(time(NULL));//ESTA LINEA ES POSIBLE QUE SI DA PROBLEMAS DEBA IR EN UNA LINEA FUERA DE LA CLASE(EN EL MAIN)
-    aleatorio = rand();
-    return aleatorio%6;
-}
 
 /****************************************************************************************************************/
 
 /// GETTERS Y SETTERS QUE FALTAN
 
 void Jugador::setCasillaPreviaJugada(Casillero* casillero){
-    this->casillaPreviaJugada = casillero;
+    if(!casillero){
+	    this->casillaPreviaJugada = NULL;
+    }else{
+	    this->casillaPreviaJugada = casillero;
+    }
 }
 Casillero* Jugador::getCasillaPreviaJugada(){
     return this->casillaPreviaJugada;
 }
 void Jugador::setCasillaPosteriorJugada(Casillero* casillero){
-    this->casillaPosteriorJugada = casillero;
+    if(!casillero){
+	    this->casillaPosteriorJugada = NULL;
+    }else{
+	    this->casillaPosteriorJugada = casillero;
+    }
 }
 Casillero* Jugador::getCasillaPosteriorJugada(){
     return this->casillaPosteriorJugada;
 }
 void Jugador::setCasillaAnulada(Casillero* casillero){
-    this->casillaAnulada = casillero;
+    if(!casillero){
+	    this->casillaAnulada = NULL;
+    }else{
+	    this->casillaAnulada = casillero;
+    }
 }
 Casillero* Jugador::getCasillaAnulada(){
     return this->casillaAnulada;
