@@ -1,0 +1,23 @@
+a) Hacer perder un turno a un jugador:
+
+
+
+b) Bloquear una ficha de otro jugador
+	Se bloquea la ficha correspondiente al último turno del bloqueado,
+	Que una ficha este bloqueada implica que no puede ser movida por el dueño durante una ronda
+
+c) Anular un casillero del tablero
+	Un jugador anula una casilla vacia durante una ronda
+	Que una casilla esté anulada implica que no se puede ni mover ni colocar ficha en ella.
+	Esa casilla vuelve a quedar habilitada cuando el que la anuló vuelve a jugar
+	
+
+d) Volver atrás una jugada del turno
+
+
+
+e) Quitarle las cartas a un jugador
+
+
+
+f) Descartar todas las cartas y reemplazarlas por igual cantidad nuevas
