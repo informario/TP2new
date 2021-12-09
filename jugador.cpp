@@ -301,7 +301,8 @@ void Jugador::usarCarta(Lista<Jugador*>* jugadores, Tablero* tablero, int maximo
     if(indiceCartaUsada == 5){
         this->renovarCartas(maximoDeCartas);
     }
-    if(indiceCartaUsada != -1){
+    //PARA RENOVAR CARTAS SE DESCUENTA LA CARTA ANTES DE LEVANTAR LAS NUEVAS
+    if(indiceCartaUsada != -1 && indiceCartaUsada != 5){
         this->cartas[indiceCartaUsada]--;
     }
 }
@@ -418,11 +419,13 @@ void Jugador::destruirCartasDeJugador(Lista<Jugador*>* jugadores){
         }
     }
 }
-
+///POST: SE DESCONTO EN -1 EL TIPO DE CARTA Y SE RENUEVAN LAS CARTAS DE LA MANO DEL JUGADOR QUE USO LA CARTA
 void Jugador::renovarCartas(int maximoDeCartas){
+	
+    ///COMO TENIA ESTA CARTA SE LE DESCUENTA AQUI, NO EN USAR CARTA
+    this->cartas[5]--;
 
-    int cantidadDeCartas = this->getCantTotalCartas() -1;///DESCUENTO LA QUE ESTA USANDO PARA QUE NO LEVANTE UNA DE MAS
-
+    int cantidadDeCartas = this->getCantTotalCartas();
     for(int i=0; i<6; i++){
         this->cartas[i] = 0;
     }
