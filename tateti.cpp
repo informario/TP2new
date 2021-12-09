@@ -61,10 +61,19 @@ void procesarJuego(Lista<Jugador*>*jug, Tablero *tab, int c){
 	int x;
 	do{
 		for(x=1; x<=jug->contarElementos(); x++){
+			
+			/// SI EL JUGADOR ANULO UNA POSICION DEL TABLERO EN EL ANTERIOR TURNO, YA VUELVE A LA NORMALIDAD
+            		jug->get(x)->setCasillaAnulada(NULL);
+			
 			if(jug->get(x)->getPierdeTurno()){
 				jug->get(x)->setPierdeTurno(false);
 			}
 			else{
+				///SE LEVANTA UNA CARTA
+			    	cout<<"Turno de "<<jug->get(x)->getTextoNombre()<<endl;
+                		int cartaRecibida = jug->get(x)->levantarCarta(c);
+                		mostrarSiLevantoCarta(cartaRecibida);
+				
 				if(jug->get(x)->getFichasPorColocar()>0){
 					///se colocan las fichas
 					jug->get(x)->colocarFicha(tab);
@@ -72,6 +81,14 @@ void procesarJuego(Lista<Jugador*>*jug, Tablero *tab, int c){
 				else{
 					//se mueven las fichas
 					jug->get(x)->moverFicha(tab);
+				}
+				if(!hayGanador && jug->get(x)->getCantTotalCartas() > 0){
+					char e;
+					cout<<"Desea usar una carta? (y/n): "<<endl;
+					cin>>e;
+					if(e == 'y'){
+						jug->get(x)->usarCarta(jug, tab, c);
+					}
 				}
 
 			}
@@ -106,6 +123,30 @@ void procesarJuego(Lista<Jugador*>*jug, Tablero *tab, int c){
 }
 
 
+///AGREGO IMPLEMENTACION DE FUNC AUXILIAR///
+void mostrarSiLevantoCarta(int indiceCarta){
+
+    string nombresCartas[] = {"Hacer perder turno a jugador", "Bloquear ficha de jugador", "Anular casillero", "Volver atras una jugada del turno", "Quitar cartas a jugador", "Renovar cartas"};
+
+    if (indiceCarta == -1){
+        cout<<"No puedes levantar carta"<<endl<<"Ya tienes la cantidad maxima permitida de cartas en mano."<<endl;
+    }else{
+        cout<<"Has levantado una carta: "<<nombresCartas[indiceCarta]<<endl;
+    }
+}
+
+int generarIndiceCarta(){
+    ///PROBABILIDADES DE QUE SALGAN LAS CARTAS:
+    /// CARTA TIPO 0 Y 5 -> PROB 5/20
+    /// CARTA TIPO 1 Y 4 -> PROB 3/20
+    /// CARTA TIPO 2 Y 3 -> PROB 2/20
+    int indicesProba[] = {0,0,0,0,0,1,1,1,2,2,3,3,4,4,4,5,5,5,5,5};
+    int aleatorio;
+    /// SE AGREGARON A TATETI.H BIBLIOTECAS NECESARIAS PARA ESTA FUNCION
+    srand(time(NULL));
+    aleatorio = rand()%20;
+    return indicesProba[aleatorio];
+}
 
 
 
