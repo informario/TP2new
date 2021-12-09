@@ -391,7 +391,7 @@ void Jugador::anularCasilleroDelTablero(Tablero* tablero){
     this->setCasillaAnulada(tablero->getCasillero(ancho, alto, prof));
 }
 
-///SI LA CASILLA PREVIA DEL JUGADOR AFECTADO ESTABA OCUPADA, ESTA CARTA NO TIENE EFECTO
+
 void Jugador::revertirJugadaDeJugador(Lista<Jugador*>* jugadores){
 
     Jugador* jugadorAfectado =this->pedirJugadorAPerjudicar(jugadores);///AUXILIAR QUE DEVUELVE PUNTERO DE JUGADOR
