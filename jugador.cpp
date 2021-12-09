@@ -47,8 +47,9 @@ void Jugador::setTextoNombre(string a){
   textoNombre=a;
 }
 /*
-    PRE: recibe como parametro un puntero a tablero
-    POST: declara tres variables locales, ancho, profundidad y alto las cuales son verificadas y en el caso de ser coordenadas validas de una casilla que no esta bloqueada ni ocupada se le ingresa una ficha.
+    PRE: recibe como parametro un puntero a tablero y tiene en cuenta que las variables locales ancho, profundidad y alto esten dentro de las dimensiones del tablero.
+    Tambien la casilla a la que se quiere ingresar una ficha no debe estar bloqueada ni ocupada.
+    POST: declara tres variables locales, ancho, profundidad y alto y se ingresa una ficha con esas coordenadas.
 */
 void Jugador::colocarFicha(Tablero* tablero) {
     tablero->imprimirTablero();
@@ -80,9 +81,9 @@ void Jugador::colocarFicha(Tablero* tablero) {
 }
 
 /*
-    PRE: recibe por parametros la direccion de memoria de cada atributo del casillero (ancho, profundidad y alto) y el puntero al tablero.
-    POST: le pregunta al usuario sobre los valores de ancho, profundidad y altura y luego se los otorga a las variables que fueron pasadas por referencia, siempre verificando que los valores que
-    otorgo el usuario sean validos.
+    PRE: recibe por parametros la direccion de memoria de cada atributo del casillero (ancho, profundidad y alto) y el puntero al tablero,los valores mencionados tienen que estar dentro de las
+    dimensiones del tablero.
+    POST: le pregunta al usuario sobre los valores de ancho, profundidad y altura y luego se los otorga a las variables que fueron pasadas por referencia.
 */
 void  Jugador::ingresarVerificandoValores(int &ancho,int &profundidad,int &alto, Tablero* tablero) {
 
@@ -112,7 +113,8 @@ void  Jugador::ingresarVerificandoValores(int &ancho,int &profundidad,int &alto,
  }
 
 /*
-    PRE: recibe como parametro un puntero a tablero.
+    PRE: recibe como parametro un puntero a tablero la casilla que se selecciona debe estar dentro de las dimensiones del tablero, no debe estar bloqueada y no puede estar vacia o ocupada por otro jugador,
+    la casilla a la que se mueve la ficha debe estar dentro de las dimensiones del tablero, no puede estar bloqueada la casilla y tiene que estar vacia.
     POST: mueve una ficha de un casillero a un casillero que se encuentre al lado del mismo (no puede moverse en diagonal).
 */
 
@@ -220,7 +222,10 @@ void Jugador::intercambiarFichas(Casillero* casillero, Casillero* casilleroAMove
     casilleroAMover->setId(this->getId());
     casillero->setId(0);
 }
-
+/*
+     PRE: recibe como parametro la direccion de memoria de un valor entero que representa la eleccion del usuario en un menu de opciones que va a ser proporsionada por la misma funcion.	
+     POST:proporciona un menu de opciones el cual muestra todos los posibles movimientos de una ficha.
+*/
 void Jugador::menuDeOpcionesAMover(int &eleccion){
 	cout<<"Es el turno del jugador: "<<this->getTextoNombre()<<" su ficha es: "<<this->getId()<<endl<<endl;
 	cout<<"Seleccione la opcion que desee: "<<endl;
