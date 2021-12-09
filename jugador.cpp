@@ -69,7 +69,8 @@ void Jugador::colocarFicha(Tablero* tablero) {
             cout << "la posicion elegida ya esta ocupada!!!" << endl;
         }
         cout << "Elija otra posicion en la cual ingresar la ficha!!!" << endl << endl;
-        colocarFicha(tablero);
+        cout << "Seleccione una posicion (ancho, profundidad y altura respectivamente) para ingresar una ficha en esa posicion" << endl;
+	this->ingresarVerificandoValores(ancho, profundidad, alto, tablero);
     }
     tablero->getCasillero(profundidad, ancho, alto)->setId(this->getId());
 
