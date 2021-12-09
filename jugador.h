@@ -9,9 +9,7 @@
 #include "casillero.h"
 #include "tablero.h"
 #include <iostream>
-#include <cmath>
-#include <ctime>
-#include <cstdlib>
+
 using namespace std;
 
 class Jugador{
@@ -34,7 +32,7 @@ class Jugador{
   void destruirCartasDeJugador(Lista<Jugador*>* jugadores);
   void renovarCartas(int maximoDeCartas);
   Jugador* pedirJugadorAPerjudicar(Lista<Jugador*>* jugadores);
-  int generarIndiceCartaAleatorio();
+  
 
   public:
   Jugador(char ide, string texnom, int fichas);
