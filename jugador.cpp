@@ -141,7 +141,7 @@ void Jugador::moverFicha(Tablero* tablero) {
             }
 
             else {
-                cout << "la posicion elegida ya esta ocupada!!!" << endl;
+                cout << "la posicion elegida ya esta ocupada por otra ficha!!!, seleccione un casillero que este ocupado por una de sus fichas" << endl;
             }
             cout << "Elija otra posicion de una ficha para moverla!!!" << endl << endl;
             tablero->imprimirTablero();
