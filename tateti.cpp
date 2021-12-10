@@ -18,14 +18,7 @@ void introduccion(int &n, int &m, int &z, int &c){
 }
 Lista<Jugador*>* obtenerJugadores(){
 	Lista<Jugador*> *jug = new Lista<Jugador*>();
-	jug->add(new Jugador((char)1, "Juan", 3));
-	jug->add(new Jugador((char)2, "Pablo", 3));
-	jug->add(new Jugador((char)3, "Carlos", 3));
-
-
-
-
-	/*bool seguir=true;
+	bool seguir=true;
 	int x=1;
 	int cantFichas=0;
 	cout<<endl<<"Ingrese la cantidad de fichas por jugador: ";
@@ -46,7 +39,7 @@ Lista<Jugador*>* obtenerJugadores(){
 		}
 
 	}while(seguir&&x<127);
-	cout<<"hola";*/
+	cout<<"hola";
 	return jug;
 }
 
@@ -60,7 +53,7 @@ void procesarJuego(Lista<Jugador*>*jug, Tablero *tab, int c){
 	int y=0;
 	int x;
 	do{
-		for(x=1; x<=jug->contarElementos(); x++){
+		for(x=1; x<=jug->contarElementos()&&hayGanador==false; x++){
 			
 			/// SI EL JUGADOR ANULO UNA POSICION DEL TABLERO EN EL ANTERIOR TURNO, YA VUELVE A LA NORMALIDAD
             		jug->get(x)->setCasillaAnulada(NULL);
@@ -76,11 +69,13 @@ void procesarJuego(Lista<Jugador*>*jug, Tablero *tab, int c){
 				
 				if(jug->get(x)->getFichasPorColocar()>0){
 					///se colocan las fichas
-					jug->get(x)->colocarFicha(tab);
+					hayGanador=jug->get(x)->colocarFicha(tab);
+					if(hayGanador==true) cout<<"Ganó"<<jug->get(x)->getTextoNombre()<<endl;
 				}
 				else{
 					//se mueven las fichas
-					jug->get(x)->moverFicha(tab);
+					hayGanador=jug->get(x)->moverFicha(tab);
+					if(hayGanador==true) cout<<"Ganó"<<jug->get(x)->getTextoNombre()<<endl;
 				}
 				if(!hayGanador && jug->get(x)->getCantTotalCartas() > 0){
 					char e;
@@ -98,32 +93,7 @@ void procesarJuego(Lista<Jugador*>*jug, Tablero *tab, int c){
 			}
 		y++;
 		}
-	}while(y<=7);
-
-
-	/*do{
-		cout<<"hola";
-		if(jug->getCursor()!=NULL){
-			cout<<"hola";
-			jug->getCursor()->usarCarta(jug, tab, c);////se esta jugando con el anterior, ojo
-		//POST: usarCarta no debe hacer nada si el jugador pasado por parámetro es null
-		}
-		cout<<"hola";
-		jug->avanzarCursor();
-		if(jug->getCursor()==NULL)jug->avanzarCursor();
-		// se itera la lista de jugadores
-		if(jug->getCursor()->getFichasPorColocar()>0){
-			///se colocan las fichas
-			jug->getCursor()->colocarFicha(tab);
-		}
-		else{
-			jug->getCursor()->moverFicha(tab);
-		}
-		cout<<"hola";
-		tab->imprimirTablero();
-	}while (tab->recorrerTablero(jug->getCursor()->getId())==false);
-	
-	jug->getCursor()->setGano(true);*/
+	}while(hayGanador==0);
 }
 
 
