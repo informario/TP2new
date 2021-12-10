@@ -83,6 +83,7 @@ void Jugador::colocarFicha(Tablero* tablero) {
     this->setFichasPorColocar(this->getFichasPorColocar() - 1);
 
     this->setCasillaPosteriorJugada(casilleroDondeColoco);
+    return tablero->esGanador(ancho,alto,profundidad);
 }
 
 /*
@@ -219,6 +220,7 @@ void Jugador::moverFicha(Tablero* tablero) {
     	this->setCasillaPosteriorJugada(casilleroDestino);
     	this->intercambiarFichas(casillero,casilleroDestino);
     }
+    return tablero->esGanador(anchoDestino,altoDestino,profundidadDestino);
 
 }
 
