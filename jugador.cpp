@@ -149,6 +149,8 @@ void Jugador::moverFicha(Tablero* tablero) {
     	this->ingresarVerificandoValores(ancho, profundidad, alto, tablero);
     }
     
+    casillero=tablero->getCasillero(profundidad,ancho,alto);
+    
     tablero->imprimirTablero();
     this->menuDeOpcionesAMover(eleccion);
 
@@ -344,7 +346,7 @@ void Jugador::bloquearFichaDeJugador(Lista<Jugador*>* jugadores){
 
     /// VERIFICO QUE EL JUGADOR TENGA UNA FICHA EN TABLERO,
     /// SI LA TIENE SERA LA QUE CORRESPONDA AL CASILLERO DE SU JUGADA POSTERIOR
-    if(jugadorAfectado && jugadorAfectado->getCasillaPosteriorJugada() && jugadorAfectado->getFichasPorColocar()!=0){
+    if(jugadorAfectado && jugadorAfectado->getCasillaPosteriorJugada()){
         jugadorAfectado->getCasillaPosteriorJugada()->setBloqueado(true);
     }
 }
