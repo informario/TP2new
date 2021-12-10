@@ -66,7 +66,7 @@ void Jugador::colocarFicha(Tablero* tablero) {
 
     while (tablero->getCasillero(profundidad, ancho, alto)->getBloqueado() == true || tablero->getCasillero(profundidad, ancho, alto)->getId() != 0) {
 
-        if (tablero->getCasillero(profundidad, ancho, alto)->getBloqueado() != false) {
+        if (tablero->getCasillero(profundidad, ancho, alto)->getBloqueado() == true) {
             cout << "la posicion ingresada esta bloqueada!!!" << endl;
         }
 
@@ -81,12 +81,8 @@ void Jugador::colocarFicha(Tablero* tablero) {
     casilleroDondeColoco=tablero->getCasillero(profundidad,ancho,alto);
     casilleroDondeColoco->setId(this->getId());
     this->setFichasPorColocar(this->getFichasPorColocar() - 1);
-	
-    this->setCasillaPosteriorJugada(casilleroDondeColoco);
 
-	
-	///REVISAR SI SE VAN ACTUALIZANDO LOS ATRIBUTOS casillaPreviaJugada y casillaPosteriorJugada 
-	///EN CASILLA POSTERIOR SE GUARDA UN PUNTERO A LA CASILLA DONDE COLOCA LA FICHA Y EN CASILLA PREVIA LA QUE COLOCO EN EL TURNO ANTERIOR
+    this->setCasillaPosteriorJugada(casilleroDondeColoco);
 }
 
 /*
@@ -128,111 +124,101 @@ void  Jugador::ingresarVerificandoValores(int &ancho,int &profundidad,int &alto,
 */
 
 void Jugador::moverFicha(Tablero* tablero) {
+    tablero->imprimirTablero();
+    int ancho, profundidad, alto;
+    bool seguir=true,volverAEmpezar=false;
+    int eleccion,opcion2;
+    Casillero *casillero, *casilleroDestino;
+
+    cout<<"Es el turno del jugador: "<<this->getTextoNombre()<<" su ficha es: "<<this->getId()<<endl<<endl;
+    cout << "Seleccione una posicion (ancho, profundidad y altura respectivamente) para mover una ficha de esa posicion" << endl;
+    this->ingresarVerificandoValores(ancho, profundidad, alto, tablero);
+
+    while (tablero->getCasillero(profundidad, ancho, alto)->getBloqueado() == true || tablero->getCasillero(profundidad, ancho, alto)->getId() != this->getId()) {
+
+            if (tablero->getCasillero(profundidad, ancho, alto)->getBloqueado() == true) {
+                cout << "la posicion ingresada esta bloqueada!!!" << endl;
+            }
+
+            else {
+                cout << "la posicion elegida ya esta ocupada!!!" << endl;
+            }
+            cout << "Elija otra posicion de una ficha para moverla!!!" << endl << endl;
+            tablero->imprimirTablero();
+    	cout << "Seleccione una posicion (ancho, profundidad y altura respectivamente) para ingresar una ficha en esa posicion" << endl;
+    	this->ingresarVerificandoValores(ancho, profundidad, alto, tablero);
+    }
+    
+    tablero->imprimirTablero();
+    this->menuDeOpcionesAMover(eleccion);
+
+    while(seguir==true && volverAEmpezar==false){
+    	switch(eleccion){
+    		case 1:
+    			casilleroDestino=tablero->getCasillero(profundidad,ancho,alto+1);
+    			break;
+    		case 2:
+    			casilleroDestino=tablero->getCasillero(profundidad,ancho,alto-1);
+    			break;
+    		case 3:
+    			casilleroDestino=tablero->getCasillero(profundidad,ancho+1,alto);
+    			break;
+    		case 4:
+    			casilleroDestino=tablero->getCasillero(profundidad,ancho-1,alto);
+    			break;
+    		case 5:
+    			casilleroDestino=tablero->getCasillero(profundidad+1,ancho,alto);
+    			break;
+    		case 6:
+    			casilleroDestino=tablero->getCasillero(profundidad-1,ancho,alto+1);
+    			break;
+    		case 7:
+    			volverAEmpezar=true;
+    			break;
+    		default:
+    			cout<<"La opcion elegida no es valida ingrese otra "<<endl;
+    			this->menuDeOpcionesAMover(eleccion);
+
+    	}
+    	if(casilleroDestino==NULL){
+    		seguir=true;
+    	}
+    	else if(casilleroDestino->getBloqueado()==true){
+    		seguir=true;
+    	}
+    	else if(casilleroDestino->getId()!=0){
+    		cout<<"el casillero seleccionado esta ocupado!!!"<<endl;
+    		seguir=true;
+    	}
+    	else{
+    		seguir=false;
+    	}
+
+    	if(seguir==true){
+    		cout<<"Elija la opcion que desee"<<endl;
+    		cout<<"1-volver a elegir un movimiento de la ficha"<<endl;
+    		cout<<"2-elegir otra ficha para moverla"<<endl;
+    		cin>>opcion2;
+    		if(opcion2==2){
+			seguir=false;
+    			volverAEmpezar=true;
+    		}else{
+    			this->menuDeOpcionesAMover(eleccion);
+    		}
+    	}
+    }
+    if(volverAEmpezar==true){
 	tablero->imprimirTablero();
-	int ancho, profundidad, alto;
-	bool seguir=true,volverAEmpezar=false;
-	int eleccion,opcion2;
-	Casillero *casillero, *casilleroDestino;
-
-	cout<<"Es el turno del jugador: "<<this->getTextoNombre()<<" su ficha es: "<<this->getId()<<endl<<endl;
-	cout << "Seleccione una posicion (ancho, profundidad y altura respectivamente) para mover una ficha de esa posicion" << endl;
-	this->ingresarVerificandoValores(ancho, profundidad, alto, tablero);
-
-	if (tablero->getCasillero(profundidad, ancho, alto)->getBloqueado() == true) {
-   	 cout << "la posicion ingresada esta bloqueada!!!" << endl;
-   	 volverAEmpezar=true;
-	}
-
-	else if (tablero->getCasillero(profundidad, ancho, alto)->getId() != this->getId()) {
-   	 cout << "La casilla esta vacia o ocupada por otro jugador!!!" << endl;
-   	 volverAEmpezar=true;
-	}
-	else{
-   	 casillero=tablero->getCasillero(profundidad,ancho,alto);
-	}
-
-	tablero->imprimirTablero();
-
-	if(volverAEmpezar==false){
-   	 this->menuDeOpcionesAMover(eleccion);
-	}
-
-	while(seguir==true && volverAEmpezar==false){
-   	 switch(eleccion){
-   		 case 1:
-   			 casilleroDestino=tablero->getCasillero(profundidad,ancho,alto+1);
-   			 break;
-   		 case 2:
-   			 casilleroDestino=tablero->getCasillero(profundidad,ancho,alto-1);
-   			 break;
-   		 case 3:
-   			 casilleroDestino=tablero->getCasillero(profundidad,ancho+1,alto);
-   			 break;
-   		 case 4:
-   			 casilleroDestino=tablero->getCasillero(profundidad,ancho-1,alto);
-   			 break;
-   		 case 5:
-   			 casilleroDestino=tablero->getCasillero(profundidad+1,ancho,alto);
-   			 break;
-   		 case 6:
-   			 casilleroDestino=tablero->getCasillero(profundidad-1,ancho,alto+1);
-   			 break;
-   		 case 7:
-   			 volverAEmpezar=true;
-   			 break;
-   		 default:
-   			 cout<<"La opcion elegida no es valida ingrese otra "<<endl;
-   			 this->menuDeOpcionesAMover(eleccion);
-
-   	 }
-   	 if(casilleroDestino==NULL){
-   		 seguir=true;
-   	 }
-   	 else if(casilleroDestino->getBloqueado()==true){
-   		 seguir=true;
-   	 }
-   	 else if(casilleroDestino->getId()!=0){
-   		 cout<<"el casillero seleccionado esta ocupado!!!"<<endl;
-   		 seguir=true;
-   	 }
-   	 else{
-   		 seguir=false;
-   	 }
-
-   	 if(seguir==true){
-   		 cout<<"Elija la opcion que desee"<<endl;
-   		 cout<<"1-volver a elegir un movimiento de la ficha"<<endl;
-   		 cout<<"2-elegir otra ficha para moverla"<<endl;
-   		 cin>>opcion2;
-   		 if(opcion2==2){
-   			 volverAEmpezar=true;
-   		 }else{
-   			 this->menuDeOpcionesAMover(eleccion);
-   		 }
-   	 }
-	}
-	if(volverAEmpezar==true){
-    		tablero->imprimirTablero();
-   	 	this->moverFicha(tablero);
-	}
-	else{
-    		this->setCasillaPreviaJugada(casillero);
-   	 	this->setCasillaPosteriorJugada(casilleroDestino);
-   	 	this->intercambiarFichas(casillero,casilleroDestino);
-	}
+    	this->moverFicha(tablero);
+    }
+    else{
+	this->setCasillaPreviaJugada(casillero);
+    	this->setCasillaPosteriorJugada(casilleroDestino);
+    	this->intercambiarFichas(casillero,casilleroDestino);
+    }
 
 }
 
-
-/*
-    PRE: Recibe como parametros dos punteros a casilleros.
-    POST: establece el id del casillero del cual se mueve la ficha a 0 y el id del casillero al cual se mueve la ficha se establece como el id del jugador que realizo el cambio.
-*/
-
-void Jugador::intercambiarFichas(Casillero* casillero, Casillero* casilleroAMover) {
-    casilleroAMover->setId(this->getId());
-    casillero->setId(0);
-}
 /*
      PRE: recibe como parametro la direccion de memoria de un valor entero que representa la eleccion del usuario en un menu de opciones que va a ser proporsionada por la misma funcion.
      Cuando el usuario ingresa la opcion deseada la misma tiene que ser de tipo entero (int).
@@ -397,6 +383,8 @@ void Jugador::revertirJugadaDeJugador(Lista<Jugador*>* jugadores){
 
     /// VERIFICO QUE EL JUGADOR TENGA UNA JUGADA PREVIA, SI LA TIENE, TMB TIENE UNA POSTERIOR(SU ULTIMO MOVIMIENTO)
     if(jugadorAfectado && jugadorAfectado->getCasillaPreviaJugada()){
+        Casillero* jugadaPrevia = jugadorAfectado->getCasillaPreviaJugada();
+        Casillero* jugadaPosterior = jugadorAfectado->getCasillaPosteriorJugada();
         ///SI ESA CASILLA QUE CORRESPONDE A LA JUGADA PREVIA ESTA VACIA,
         ///ENTONCES PODEMOS INTERCAMBIARLA POR LA JUGADA POSTERIOR
         if(!jugadorAfectado->getCasillaPreviaJugada()->getOcupado()){
