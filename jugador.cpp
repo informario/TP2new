@@ -344,7 +344,7 @@ void Jugador::bloquearFichaDeJugador(Lista<Jugador*>* jugadores){
 
     /// VERIFICO QUE EL JUGADOR TENGA UNA FICHA EN TABLERO,
     /// SI LA TIENE SERA LA QUE CORRESPONDA AL CASILLERO DE SU JUGADA POSTERIOR
-    if(jugadorAfectado && jugadorAfectado->getCasillaPosteriorJugada()){
+    if(jugadorAfectado && jugadorAfectado->getCasillaPosteriorJugada() && jugadorAfectado->getFichasPorColocar()!=0){
         jugadorAfectado->getCasillaPosteriorJugada()->setBloqueado(true);
     }
 }
