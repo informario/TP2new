@@ -91,7 +91,9 @@ void procesarJuego(Lista<Jugador*>*jug, Tablero *tab, int c){
 					}
 				}
 				//SI TENIA FICHA BLOQUEADA HAY QUE DESBLOQUEARLA
-				jug->get(x)->getCasillaPreviaJugada()->setBloqueado(false);
+				if(jug->get(x)->getCasillaPreviaJugada()){
+					jug->get(x)->getCasillaPreviaJugada()->setBloqueado(false);
+				}
 
 			}
 		y++;
