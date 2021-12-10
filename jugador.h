@@ -51,11 +51,11 @@ class Jugador{
   void setFichasPorColocar(int);//POST: modifica la cantidad de fichas que aun no se colocaron
   void setTextoNombre(string);//POST: asigna un nombre al jugador
   //////////////
-  bool colocarFicha(Tablero* tab);
+  void colocarFicha(Tablero* tab);
   void ingresarVerificandoValores(int& ancho, int& profundidad, int& alto, Tablero* tablero);
 
   ///FALTABAN AGREGAR FIRMAS DE METODOS
-  bool moverFicha(Tablero* tablero);
+  void moverFicha(Tablero* tablero);
   void intercambiarFichas(Casillero* casillero, Casillero* casilleroAMover);
   void menuDeOpcionesAMover(int &eleccion);
   /////////////////////////////////////
