@@ -184,6 +184,7 @@ void Jugador::moverFicha(Tablero* tablero) {
     		seguir=true;
     	}
     	else if(casilleroDestino->getBloqueado()==true){
+		cout<<"El casillero seleccionado esta bloqueado!!!"<<endl;
     		seguir=true;
     	}
     	else if(casilleroDestino->getId()!=0){
