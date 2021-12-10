@@ -199,6 +199,7 @@ void Jugador::moverFicha(Tablero* tablero) {
     		cout<<"Elija la opcion que desee"<<endl;
     		cout<<"1-volver a elegir un movimiento de la ficha"<<endl;
     		cout<<"2-elegir otra ficha para moverla"<<endl;
+		cout<<"opcion: ";
     		cin>>opcion2;
     		if(opcion2==2){
 			seguir=false;
