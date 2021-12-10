@@ -18,7 +18,10 @@ class Tablero{
   int getProf();
   Casillero *getCasillero(int prof, int anch, int alt);//POST: devuelve un puntero a casillero según las coordenadas que se indiquen
   void imprimirTablero();
-  void bmpTablero();
+  bool esGanador(int ancho, int alto, int prof);
+  bool existeCasillero(int ancho, int alto, int profundidad);
+  bool cumpleCondicionGanadoraEnAlgunaDireccion(int largoDeCadaVecino[3][3][3]);
+  int obtenerCantidadDeFichasAlineadas(int prof, int ancho, int alto, int i, int j, int k);
 };
 
 
