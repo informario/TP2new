@@ -81,6 +81,8 @@ class Jugador{
  *         contra el cual se utiliza dicha carta una vez que todas sus fichas se encuentran en el tablero.
  *         Si la casilla que ocupaba anteriormente dicha ficha afectada por la carta estaba ocupada o bloqueada,
  *         esta carta no tuvo efecto.
+ *         Si otro jugador afecta al mismo jugador al cual se le habia revertido la jugada en el mismo turno, no
+ *         tendra efecto.
  *       - Destruir las cartas del jugador deja la mano vacía de cartas del jugador afectado.
  *         Si el jugador afectado no tenia cartas e igualmente se uso esta carta contra el, se quita esta carta de
  *         las manos del usuario.
