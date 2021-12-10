@@ -90,6 +90,8 @@ void procesarJuego(Lista<Jugador*>*jug, Tablero *tab, int c){
 						jug->get(x)->usarCarta(jug, tab, c);
 					}
 				}
+				//SI TENIA FICHA BLOQUEADA HAY QUE DESBLOQUEARLA
+				jug->get(x)->getCasillaPreviaJugada()->setBloqueado(false);
 
 			}
 		y++;
