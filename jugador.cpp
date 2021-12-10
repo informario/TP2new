@@ -402,7 +402,11 @@ void Jugador::revertirJugadaDeJugador(Lista<Jugador*>* jugadores){
         ///SI ESA CASILLA QUE CORRESPONDE A LA JUGADA PREVIA ESTA VACIA,
         ///ENTONCES PODEMOS INTERCAMBIARLA POR LA JUGADA POSTERIOR
         if(!jugadorAfectado->getCasillaPreviaJugada()->getOcupado()){
-            this->intercambiarFichas(jugadaPosterior, jugadaPrevia);
+            jugadorAfectado->getCasillaPreviaJugada()->setId(jugadorAfectado->getId());
+            jugadorAfectado->getCasillaPosteriorJugada()->setId(0);
+            //LA CASILLA POSTERIOR AHORA ES LA ANTERIOR
+            jugadorAfectado->setCasillaPosteriorJugada(jugadorAfectado->getCasillaPreviaJugada());
+            jugadorAfectado->setCasillaPreviaJugada(NULL);
         }///SI LA CASILLA DE JUGADA PREVIA ESTABA OCUPADA POR OTRO JUGADOR, LA CARTA NO TUVO EFECTO
     }
 }
