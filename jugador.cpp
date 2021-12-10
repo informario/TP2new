@@ -191,6 +191,7 @@ void Jugador::moverFicha(Tablero* tablero) {
     		seguir=true;
     	}
     	else if(casilleroDestino->getBloqueado()==true){
+		cout<<"El casillero seleccionado esta bloqueado!!!"<<endl;
     		seguir=true;
     	}
     	else if(casilleroDestino->getId()!=0){
@@ -208,6 +209,7 @@ void Jugador::moverFicha(Tablero* tablero) {
     		cin>>opcion2;
     		if(opcion2==2){
     			volverAEmpezar=true;
+			seguir==false;
     		}else{
     			this->menuDeOpcionesAMover(eleccion);
     		}
